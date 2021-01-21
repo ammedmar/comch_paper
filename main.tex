@@ -1,4 +1,17 @@
 \documentclass{amsart}
+\usepackage[bookmarks=true, linktocpage=true,
+bookmarksnumbered=true, breaklinks=true,
+pdfstartview=FitH, hyperfigures=false,
+plainpages=false, naturalnames=true,
+colorlinks=true, pagebackref=true,
+pdfpagelabels]{hyperref}
+\hypersetup{
+	colorlinks,
+	citecolor=blue,
+	filecolor=blue,
+	linkcolor=blue,
+	urlcolor=blue
+}
 
 \begin{document}
 \title{A lightweight computer algebra system for the study of commutativity up-to-coherent-homotopies}
@@ -10,7 +23,7 @@
 \keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product}
 
 \begin{abstract}
-	The Python package \texttt{ComCH} is a lightweight specialized computer algebra system that implements models of the objects parameterizing the product structure of algebras that are commutative in a derived sense. The singular cochains of spaces constitute a key examples of such algebras, and the parameterizing objects considered are the surjection and Barratt-Eccles operads.
+	The Python package \texttt{ComCH} is a lightweight specialized computer algebra system. It provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense. The primary example treated by \texttt{ComCH} of such algebras is provided the singular cochains complex of spaces.
 \end{abstract} 
 
 \maketitle
@@ -19,11 +32,9 @@
 
 All the basic notions of number, from the integers to the complex, are equipped with a commutative product, and it was believed until Hamilton's introduction of the quaternions, that the product of any number system must be commutative. Hamilton's discovery allowed for the consideration of other algebraic structures where commutativity was not demanded, and the conceptual shift that followed is only comparable to the effect non-euclidean geometries had in the study of shapes. Around a century later, after the development of the novel fields of topology and homotopy, mathematicians returned to the question of commutativity and identified additional levels of this property enriching the basic dichotomy. These structures correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of extensive current research in theoretical and applied topology. We mention knot theory, TQFT's, persistence homology and motion planning as some examples.
 
-After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62} and others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by the theory of operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \texttt{ComCH}, we focus on the category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} are known as the surjection and Barratt-Eccles operads.
+After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62} and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by the theory of operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \texttt{ComCH}, we focus on the category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
-The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p$, with homology operations. ... 
-
-%Some theoretical concepts modeled in this package have already found modern applications in, for example, topological data analysis, condensed matter physics, and motion planning, with a key notion being that of cohomology operation at the chain level. This concept is implemented in `ComCH` for the first time and serves as a primary example of its capabilities.
+The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{kapustin2017fermionic}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \texttt{ComCH} implements the constructions of \cite{medina2020chain}, and makes available for the first time chain level representations of these invariants for spaces presented simplicially or cubically.
 
 \section*{Acknowledgment}
 We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith, stimulating conversations with Dennis Sullivan, Kathryn Hess, Greg Brumfiel, John Morgan, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, and Guillaume Tauzin, and the support of the Laboratory for Topology and Neuroscience at EPFL.
