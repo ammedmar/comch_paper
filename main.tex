@@ -1,4 +1,5 @@
 \documentclass{amsart}
+\usepackage{tikz-cd}
 \usepackage[bookmarks=true, linktocpage=true,
 bookmarksnumbered=true, breaklinks=true,
 pdfstartview=FitH, hyperfigures=false,
@@ -13,8 +14,12 @@ pdfpagelabels]{hyperref}
 	urlcolor=blue
 }
 
+\renewcommand{\S}{\mathrm S}
+\newcommand{\comch}{\texttt{ComCH }}
+\newcommand{\id}{\mathrm{id}}
+
 \begin{document}
-\title{A lightweight computer algebra system for the study of commutativity up-to-coherent-homotopies}
+\title[A C.A.S. for the study of commutativity up-to-coherent-homotopies]{A computer algebra system for the study of commutativity up-to-coherent-homotopies}
 \author{Anibal M. Medina-Mardones}
 \address{Max Plank Institute for Mathematics, Bonn, Germany}
 \address{Department of Mathematics, University of Notre Dame, Notre Dame, IN, USA}
@@ -23,7 +28,7 @@ pdfpagelabels]{hyperref}
 \keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product}
 
 \begin{abstract}
-	The Python package \texttt{ComCH} is a lightweight specialized computer algebra system. It provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense. The primary example treated by \texttt{ComCH} of such algebras is provided the singular cochains complex of spaces.
+	The Python package \comch is a lightweight specialized computer algebra system. It provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of (co)algebras that are (co)commutative in a derived sense. The primary example treated by \comch of these (co)algebras is the (co)chain complex of a space.
 \end{abstract} 
 
 \maketitle
@@ -32,12 +37,63 @@ pdfpagelabels]{hyperref}
 
 All the basic notions of number, from the integers to the complex, are equipped with a commutative product, and it was believed until Hamilton's introduction of the quaternions, that the product of any number system must be commutative. Hamilton's discovery allowed for the consideration of other algebraic structures where commutativity was not demanded, and the conceptual shift that followed is only comparable to the effect non-euclidean geometries had in the study of shapes. Around a century later, after the development of the novel fields of topology and homotopy, mathematicians returned to the question of commutativity and identified additional levels of this property enriching the basic dichotomy. These structures correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of extensive current research in theoretical and applied topology. We mention knot theory, TQFT's, persistence homology and motion planning as some examples.
 
-After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62} and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by the theory of operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \texttt{ComCH}, we focus on the category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
+After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62} and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the category of differential graded modules, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
-The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{kapustin2017fermionic}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \texttt{ComCH} implements the constructions of \cite{medina2020chain}, and makes available for the first time chain level representations of these invariants for spaces presented simplicially or cubically.
+The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{kapustin2017fermionic}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \comch implements the constructions of \cite{medina2020chain}, and makes available for the first time chain level representations of these invariants for spaces presented simplicially or cubically.
 
 \section*{Acknowledgment}
 We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith, stimulating conversations with Dennis Sullivan, Kathryn Hess, Greg Brumfiel, John Morgan, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, and Guillaume Tauzin, and the support of the Laboratory for Topology and Neuroscience at EPFL.
+
+\section{Overview of \comch}
+
+\subsection{Free modules and symmetric groups}
+
+Let $R$ be the ring of integers or one of its quotients. In \comch the class \texttt{FreeModuleElement} serves to model elements in free $R$-modules, where $R$ is specified by the parameter \texttt{torsion}. Let $\S_r$ be the set of self-bijection of $\{1, \dots, r\}$ regarded as a group by composition. An element $\sigma \in \S_r$ will be represented by the sequence of its values $(\sigma(1), \dots, \sigma(r))$ and is modeled in \comch using the class \texttt{SymmetricGroupElement}.
+
+\subsection{operads}
+
+Let $C$ be a differential graded (dg) $R$-module, and consider the set $End^C(r) = Hom(C, C^{\otimes r})$ of $R$-linear maps as a dg $R$-module in the usual way. The collection 
+\begin{equation*}
+End^C = \left\{End^C(r)\right\}_{r \geq 1}
+\end{equation*}
+ss equipped with the following structure: a left action of $\S_r$ on $End^C(r)$ and composition chain maps
+\begin{equation*}
+\begin{tikzcd}[column sep=small, row sep=tiny]
+\circ_i \colon &[-10pt] End^C(r) \otimes End^C(s) \arrow[r] & End^C(r+s-1) \\
+& f \otimes g \arrow[r, |->] & (\id \otimes \cdots \otimes g \otimes \cdots \otimes \id) \circ f 
+\end{tikzcd}
+\end{equation*}
+satisfying forms of equivariance, associativity, and unitality. This structure on $End^C$ is the one abstracted to define an operad, and the precise although lengthy definition can be found for example in \cite{Markl08}.
+
+\subsection{The symmetric ring operad}
+
+Let us consider $R[\S] = \left\{R[\S_r]\right\}_{r \geq 1}$ with $R[\S_r]$ the group ring of $\S_r$ thought of as a dg $R$-module concentrated in degree~$0$. It has the structure of an operad with left action induced from left multiplication, and compositions induced from the maps $\circ_i \colon \S_r \times \S_s \to \S_{r+s-1}$ sending a pair $(x, y)$ to the bijection $x \circ_i y$ represented diagrammatically by
+\begin{equation*}
+\underbrace{1 \cdots (\overbrace{i \cdots i+s-1}^y) \cdots r+s-1}_x.
+\end{equation*}
+More precisely in terms of sequences, $x \circ_i y$ is obtained by replacing the $i$-th value of $x$ with the sequence obtained by adding $i-1$ to the values of $y$, and increasing by $s-1$ the values of $x$ greater than $s$. 
+
+We model elements in $R[\S]$ using the class \texttt{SymmetricRingElement} combining the classes \texttt{FreeModuleElement} and \texttt{SymmetricGroupElement}. For example, we have
+\begin{verbatim}
+>>> x = SymmetricRingElement({(2,3,1):-1, (1,3,2):1})
+>>> y = SymmetricRingElement({(1,3,2):1, (1,2,3):2})
+>>> print(x * y)
+- (2,1,3) - 2(2,3,1) + (1,2,3) + 2(1,3,2)
+>>> print(x.compose(y, 2))
+- (2,4,3,5,1) - 2(2,3,4,5,1) + (1,5,2,4,3) + 2(1,5,2,3,4)
+\end{verbatim}
+
+\subsection{Surjection operad}
+
+For a positive integer $r$ let $\mathcal X(r)_d$ be the free $R$-module generated by all functions $s : \{1, \dots, d+r\} \to \{1, \dots, r\}$ modulo the $R$-submodule generated by degenerate functions, i.e., those which are either non-surjective or have a pair of equal consecutive values. There is a left action of $\mathrm S_r$ on $\mathcal X(r)$ which is up to signs defined on basis elements by $\pi \cdot s = \pi \circ s$.
+We represent a surjection $s$ as the sequences of its values $\big( s(1), \dots, s(n+r) \big)$. The boundary map in this complex is defined up to signs by
+
+\begin{equation*}
+\partial s = \sum_{i = 1}^{r+d} \pm \big( s(1), \dots, \widehat{s(i)}, \dots, s(n+r) \big)
+\end{equation*}
+and the composition by
+
+
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliography}
