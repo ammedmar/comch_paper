@@ -48,7 +48,7 @@ We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Mich
 
 \section{Overview of \comch}
 
-In this section we describe the overall structure and main functionalities of \comch, refering to its documentation\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}} for a complete description of all its classes and their methods.
+In this section we describe the overall structure and main functionalities of \comch, refering to its documentation for a complete description of all its classes and their methods.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
 
 \subsection{Free modules and symmetric groups}
 
@@ -56,7 +56,7 @@ Let $R$ be the ring of integers or one of its quotients. In \comch\, the class \
 
 \subsection{Operads}
 
-Operads parameterize algebraic structures on chain complexes. The precise although lengthy definition can be found for example in \cite{Markl08}. We will introduce a fundamental example from which the definition can be abstracted. Let $C$ be a chain complex of $R$-module, and consider the set $End^C(r) = Hom(C, C^{\otimes r})$ of $R$-linear maps as a chain complex in the usual way. The collection 
+Operads parameterize algebraic structures on chain complexes. The precise although lengthy definition can be found for example in \cite{Markl08}. We will present a key example from which the definition can be abstracted. Let $C$ be a chain complex of $R$-module, and consider the set $End^C(r) = Hom(C, C^{\otimes r})$ of $R$-linear maps as a chain complex in the usual way. The set 
 \begin{equation*}
 End^C = \left\{End^C(r)\right\}_{r \geq 1}
 \end{equation*}
@@ -69,7 +69,7 @@ is equipped with the following structure: a left action of $\S_r$ on $End^C(r)$ 
 \end{equation*}
 satisfying forms of equivariance, associativity, and unitality.
 
-An $\mathcal O$-coalgebra structure on $C$ is a structure preserving morphism from $\mathcal O$ to $End^C$. We remark that it is also common to consider the complexes $End_A = Hom(A^{\otimes r}, A)$ assembled into an operad, with morphisms $\mathcal O \to End_A$ referred to as $\mathcal O$-algebras. The linear duality functor induces from an $\mathcal O$-coalgebra in $C$ an $\mathcal O$-algebra structure on $Hom(C, R)$. In subsection \ref{label} we will overview the examples of (co)chains of simplicial sets.
+An $\mathcal O$-coalgebra structure on $C$ is a structure preserving morphism from $\mathcal O$ to $End^C$. We remark that it is also common to consider the operad $End_A$ obtained from the complexes $End_A(r) = Hom(A^{\otimes r}, A)$, referring to morphisms $\mathcal O \to End_A$ as $\mathcal O$-algebras. The linear duality functor induces from an $\mathcal O$-coalgebra in $C$ an $\mathcal O$-algebra structure on $Hom(C, R)$. In subsection \ref{label} we will overview the example given by (co)chains of simplicial sets.
 
 \subsection{The symmetric ring operad}
 
@@ -81,12 +81,12 @@ sending a pair $(x, y)$ to the bijection $x \circ_i y$ represented diagrammatica
 \begin{equation*}
 \underbrace{1 \cdots (\overbrace{i \cdots i+s-1}^y) \cdots r+s-1}_x.
 \end{equation*}
-More precisely, using sequences, $x \circ_i y$ is obtained by replacing the $i$-th value of $x$ with the sequence obtained by adding $i-1$ to the values of $y$, and shifting up by $s-1$ the values of $x$ greater than $s$. 
+More precisely, $x \circ_i y$ is the sequence obtained by replacing the $i$-th value of $x$ with the sequence obtained by adding $i-1$ to the values of $y$, and shifting up by $s-1$ the values of $x$ greater than $s$. 
 
 We model elements in $R[\S]$ using the class \texttt{SymmetricRingElement} which combines the classes \texttt{FreeModuleElement} and \texttt{SymmetricGroupElement}. For example, we have
 \begin{verbatim}
->>> x = SymmetricRingElement({(2,3,1):-1, (1,3,2):1})
->>> y = SymmetricRingElement({(1,3,2):1, (1,2,3):2})
+>>> x = SymmetricRingElement({(2,3,1): -1, (1,3,2): 1})
+>>> y = SymmetricRingElement({(1,3,2): 1, (1,2,3): 2})
 >>> print(x * y)
 - (2,1,3) - 2(2,3,1) + (1,2,3) + 2(1,3,2)
 >>> print(x.compose(y, 2))
@@ -95,7 +95,7 @@ We model elements in $R[\S]$ using the class \texttt{SymmetricRingElement} which
 
 \subsection{$E_\infty$-operads}
 
-An important class of operads are those defining in each arity $r$ a resolution of the ground ring $R$ as an $R[\S_r]$-module. Such operads are called \mbox{$E_\infty$-operads}. They typically come equipped with a filtration by so called $E_n$-operads parameterizing different levels of derived commutativity, with $E_1$ corresponding to the lack of any assumed commutativity, and $E_\infty$ to the largest possible degree of homotopical commutativity. \comch\, implements models of two well known $E_\infty$-operads equipped with filtrations by $E_n$-operads. We now describe these models.
+An important class of operads are those defining resolutions of the ground ring $R$ as an $R[\S_r]$-module. Such operads are called \mbox{$E_\infty$-operads}. They typically come equipped with a filtration by so called $E_n$-operads parameterizing different levels of derived commutativity, with $E_1$ corresponding to the lack of any assumed commutativity, and $E_\infty$ to the largest possible degree of homotopical commutativity. \comch\, implements models of two well known $E_\infty$-operads equipped with filtrations by $E_n$-operads which we now describe.
 
 \subsection{Surjection operad}
 
@@ -104,7 +104,7 @@ We represent a surjection $x$ as the sequences of its values $\big( x(1), \dots,
 \begin{equation*}
 \partial x = \sum_{i = 1}^{r+d} \pm \big( x(1), \dots, \widehat{x(i)}, \dots, x(n+r) \big),
 \end{equation*}
-and the $i$-th composition $x \circ_i y$ of $x \in \mathcal X(r)$ and $y \in \mathcal X(s)$ by the following procedure: let $w$ be the cardinality of $x^{-1}(i)$, for every collection of \textit{ordered indices}
+and the $i$-th composition $x \circ_i y$ of $x \in \mathcal X(r)$ and $y \in \mathcal X(s)$ by the following. Let $w$ be the cardinality of $x^{-1}(i)$. For every collection of \textit{ordered indices}
 \begin{equation*}
 1 = j_0 \leq j_1 \leq j_2 \leq \cdots \leq j_{w-1} \leq j_w = s
 \end{equation*}
@@ -112,7 +112,7 @@ we construct an associated splitting of $y$
 \begin{equation*}
 (y(j_0), \dots, y(j_1));\ (y(j_1), \dots, y(j_2));\ \cdots \ ;\ (y(j_{w-1}), \dots, y(j_w)).
 \end{equation*}
-The element $x \circ_i y \in \X(r+s-1)$ is represented, up to signs, as the sum over all possible collections of order indices of the sequence obtained in the following two steps: 1) shift up by $s-1$ the values of $x$ greater than $i$, then 2) shift up by $i-1$ the values of each sequence in the associated splitting of $y$, and finally 3) replace in order the occurrences of $i$ in $x$ by the corresponding sequence in the splitting.
+The element $x \circ_i y \in \X(r+s-1)$ is represented, up to signs, as the sum over all possible collections of order indices of the sequence obtained in the following three steps: 1) shift up by $s-1$ the values of $x$ greater than $i$, then 2) shift up by $i-1$ the values of each sequence in the associated splitting of $y$, and finally 3) replace in order the occurrences of $i$ in $x$ by the corresponding sequence in the splitting.
 
 The elements in this operad are modeled using the class \texttt{SurjectionElement}. For example,
 \begin{verbatim}
@@ -124,9 +124,9 @@ The elements in this operad are modeled using the class \texttt{SurjectionElemen
 (1,3,1,2,1,4) - (1,2,3,2,1,4) - (1,2,1,3,1,4)
 \end{verbatim}
 
-The signs appearing in these constructions are determined by the attribute \texttt{convention} with possible values the strings \texttt{McClure-Smith} and \texttt{Berger-Fresse}, and we refer to \cite{McClureSmith03} and \cite{BergerFresse04} for their definitions.
+The signs appearing in these constructions are determined by the attribute \texttt{convention} with possible values the strings \texttt{McClure-Smith} and \texttt{Berger-Fresse}. We refer to \cite{McClureSmith03} and \cite{BergerFresse04} for details.
 
-We will now review the definition of the complexity of a surjection element. The importance of this concept is that the set of surjections elements with complexity less than $n$ defines an $E_n$-suboperad of $\mathcal X$.
+We will now review the definition of the complexity of a surjection element. The importance of this concept is that the set of surjection elements with complexity less than $n$ defines an $E_n$-suboperad of $\mathcal X$ \cite{McClureSmith03}.
 
 The complexity of a finite binary sequence (i.e. a sequence of two distinct values) is defined as the number of consecutive distinct elements in it. For example, (1,2,2,1) and (1,1,1,2) have complexities 2 and 1 respectively. The complexity of a basis surjection element is defined as the maximum value of the complexities of its binary subsequences. Notice that for elements in $\mathcal X(2)$, complexity and degree agree. The class \texttt{SurjectionElement} models this concept with the attribute \texttt{complexity}.
 
@@ -148,7 +148,7 @@ It is equipped with a left $\mathrm S_r$-action defined on basis elements by
 \begin{equation*}
 \sigma (\sigma_0, \dots, \sigma_n) = (\sigma \sigma_0, \dots, \sigma \sigma_n).
 \end{equation*}
-The chain complex resulting from applying the functor of normalized $R$-chains to it is denoted $\mathcal E(r)$ and the Barratt-Eccles operad is the collection $\mathcal E = \{\mathcal E(r)\}_{r\geq0}$. To define its composition structure we use the Eilenberg-Zilber map. Let us notice that at the level of the simplicial sets $E(\S_r)$ we have compositions
+The chain complex resulting from applying the functor of normalized $R$-chains to it is denoted $\mathcal E(r)$ and the underlying set of the Barratt-Eccles operad is $\mathcal E = \{\mathcal E(r)\}_{r\geq0}$. To define its composition structure we use the Eilenberg-Zilber map. Let us notice that at the level of the simplicial sets $E(\S_r)$ we have compositions
 \begin{equation*}
 {\circ}_{i}: E(r) \times E(s) \to E(r + s - 1)
 \end{equation*}
@@ -176,13 +176,13 @@ For example,
 3((1,3,2,4),(3,2,4,1)) + 6((3,2,4,1),(1,3,2,4))
 \end{verbatim}
 
-The complexity of a Barratt-Eccles element is define analogously to that of surjection elements in terms of binary complexities. In this case too, the subset of elements with complexity less than $n$ defines an $E_n$-suboperad \cite{BergerFresse04}.
+The complexity of a Barratt-Eccles element is define analogously to that of surjection elements. In this case too, the subset of elements with complexity less than $n$ defines an $E_n$-suboperad \cite{BergerFresse04}.
 
-An important structure present in the Barratt-Eccles operad missing in the surjection operad is a diagonal chain map compatible with compositions. For a basis element we have
+An important structure present in the Barratt-Eccles operad missing in the surjection operad is a diagonal chain map compatible with compositions. It is the Alexander-Whitney diagonal defined on basis Barratt-Eccles element by
 \begin{equation*}
 \Delta(\sigma_0, \dots, \sigma_n) = \sum_{i=1}^n (\sigma_0, \dots, \sigma_i) \otimes (\sigma_i, \dots, \sigma_n).
 \end{equation*}
-For example,
+We illustrate its implmentation in \comch\, with the following example.
 \begin{verbatim}
 >>> x = BarrattEcclesElement({((1,2), (2,1)): 1})
 >>> print(x.diagonal())
@@ -274,7 +274,6 @@ In \comch\, we implement models for $C_\bullet^{\otimes r}$ and describe the act
 >>> print(x(cube))
 - ((2,2),(1,2)) + ((2,1),(2,2)) + ((0,2),(2,2)) - ((2,2),(2,0))
 \end{verbatim}
-
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliography}
