@@ -1,3 +1,4 @@
+%\documentclass[microtype]{gtpart}
 \documentclass{amsart}
 \usepackage{tikz-cd}
 \usepackage[bookmarks=true, linktocpage=true,
@@ -30,25 +31,26 @@ pdfpagelabels]{hyperref}
 \keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product}
 
 \begin{abstract}
-	The Python package \comch\, is a lightweight specialized computer algebra system. It provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the (co)product structure of (co)algebras that are (co)commutative in a derived sense. The primary example treated by \comch\, of these (co)algebras is the (co)chain complex of a space.
+	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the (co)product structure of (co)algebras (co)commutative in a derived sense. The primary example of these (co)algebras treated by \comch\, is the (co)chain complex of a space, and an important application for it is the first effective construction of its Steenrod operations.
 \end{abstract} 
 
 \maketitle
 
 \section{Introduction}
 
-All the basic notions of number, from the integers to the complex, are equipped with a commutative product, and it was believed until Hamilton's introduction of the quaternions, that the product of any number system must be commutative. Hamilton's discovery encourage the consideration of other algebraic structures where commutativity was not demanded, and the conceptual shift that followed is only comparable to the effect non-euclidean geometries had in the study of spaces. Around a century later, after the development of the novel fields of topology and homotopy, mathematicians returned to the question of commutativity and identified additional levels of this property enriching the basic dichotomy. These structures correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of extensive current research in theoretical and applied topology. We mention knot theory, TQFT's, persistence homology and motion planning as some examples.
+All the basic notions of number, from the integers to the complex, are equipped with a commutative product, and it was believed until Hamilton's introduction of the quaternions, that the product of any number system must be commutative. Hamilton's discovery encourage the consideration of other algebraic structures where commutativity was not demanded, and the conceptual shift that followed is only comparable to the effect non-euclidean geometries had in the study of spaces. Around a century later, after the development of the novel fields of topology and homotopy, mathematicians returned to the question of commutativity and identified additional levels of this property enriching the basic dichotomy. These structures correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of extensive current research in theoretical and applied topology. We mention as examples knot theory, TQFT's, persistence homology and motion planning.
 
-After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the category of differential graded modules, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
+After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the algebraic category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
 The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{kapustin2017fermionic}, category theory \cite{medina2020globular} and others areas, and to provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020chain}, making available for the first time chain level representations of these invariants for spaces presented simplicially or cubically.
 
+\tableofcontents
+
 \section*{Acknowledgment}
-We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith, stimulating conversations with Dennis Sullivan, Kathryn Hess, Greg Brumfiel, John Morgan, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, and Guillaume Tauzin, and the support of the Laboratory for Topology and Neuroscience at EPFL.
+We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith. We thank Dennis Sullivan, Kathryn Hess, John Morgan, Greg Brumfiel, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, Guillaume Tauzin, and Lewis Tunstall for insightful conversations. We also thank the Laboratory for Topology and Neuroscience at EPFL for its support and hospitality while part of this work was developed.
 
 \section{Overview of \comch}
-
-In this section we describe the overall structure and main functionalities of \comch, refering to its documentation for a complete description of all its classes and their methods.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
+In this section we describe the overall structure and main functionalities of \comch, refering to its documentation for a complete description of its classes and their methods.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
 
 \subsection{Free modules and symmetric groups}
 
@@ -71,7 +73,7 @@ satisfying forms of equivariance, associativity, and unitality.
 
 An $\mathcal O$-coalgebra structure on $C$ is a structure preserving morphism from $\mathcal O$ to $End^C$. We remark that it is also common to consider the operad $End_A$ obtained from the complexes $End_A(r) = Hom(A^{\otimes r}, A)$, referring to morphisms $\mathcal O \to End_A$ as $\mathcal O$-algebras. The linear duality functor induces from an $\mathcal O$-coalgebra in $C$ an $\mathcal O$-algebra structure on $Hom(C, R)$. In subsection \ref{label} we will overview the example given by (co)chains of simplicial sets.
 
-\subsection{The symmetric ring operad}
+\subsection{Symmetric ring operad}
 
 Let us consider $R[\S] = \left\{R[\S_r]\right\}_{r \geq 1}$ with $R[\S_r]$ the group ring of $\S_r$ thought of as a dg $R$-module concentrated in degree~$0$. It has the structure of an operad with left action induced from left multiplication, and compositions induced from the maps
 \begin{equation} \label{eq: compostion of permutations}
@@ -191,36 +193,80 @@ We illustrate its implmentation in \comch\, with the following example.
 
 \section{Steenrod operations}
 
+In this section we effectively describe how to compute Steenrod operations for the mod-$p$ cohomology of spaces presented as simplicial or cubical sets. The implementation of these algorithms is one of the main novel contributions of \comch\, to the software base used in algebraic topology. See also, \cite{}.
+
 \subsection{Steenrod-Adem structures}
 
 Let $\mathrm{C}_r$ be the cyclic group of order $r$ thought of as the subgroup of $\mathrm{S}_r$ generated by an element $\rho$. The elements
 \begin{equation*}
 T = \rho-1 \quad \text{ and } \quad N = 1+\rho+\cdots+\rho^{r-1}
 \end{equation*}
-in $R[C_r]$ define a minimal resolution $W(r)$
+in $R[C_r]$ define a minimal resolution of $R$ by free $R[C_r]$-modules
 \begin{equation*}
-R[C_r] \stackrel{T}{\longleftarrow} R[C_r] \stackrel{N}{\longleftarrow} R[C_r] \stackrel{T}{\longleftarrow} \cdots
+\mathcal W(r) = R[C_r] \stackrel{T}{\longleftarrow} R[C_r] \stackrel{N}{\longleftarrow} R[C_r] \stackrel{T}{\longleftarrow} \cdots.
 \end{equation*}
-of $R$ by free $R[C_r]$-modules. We denote
-a preferred basis element of $W(r)_i$ by $e_i$.
+We denote
+a preferred basis element of $\mathcal W(r)_i$ by $e_i$.
 
-A Steenrod-Adem structure on an operad $\mathcal O$ is a collection of $\mathrm C$-equivariant chain maps $\mathcal W \stackrel{\psi}{\longrightarrow} \mathcal O$ for which there exists a factorization through an $E_\infty$-operad $\mathcal W \stackrel{\iota}{\longrightarrow} \mathcal R \stackrel{\phi}{\longrightarrow} \mathcal O$ such that $\iota$ is a weak equivalence and $\phi$ a morphism of operads. For any integers $r$ and $i$, a Steenrod-Adem structure produces a preferred element $\psi(e_i)$ in $\mathcal O(r)_i$. 
+A Steenrod-Adem structure on an operad $\mathcal O$ is a collection indexed by $r > 0$ of $\mathrm C_r$-equivariant chain maps $\mathcal W(r) \stackrel{\psi_r}{\longrightarrow} \mathcal O(r)$ for which there exists a factorization through an $E_\infty$-operad $\mathcal W(r) \to \mathcal R(r) \to \mathcal O(r)$ such that the first map is a weak equivalence and the second induces a morphism of operads.
+For any pair of integers $r$ and $i$, a Steenrod-Adem structure produces a preferred element $\psi_r(e_i)$ in $\mathcal O(r)_i$.
 
 Steenrod-Adem structures for the surjection and Barratt-Eccles operads are implemented in \comch\, following their introduction in \cite{medina2020chain}. For example,
 
 \begin{verbatim}
 >>> r, i = 3, 2
->>> x = BarrattEccles.steenrod_adem_structure(r, i)
->>> print(x)
-((1,2,3),(2,3,1),(3,1,2)) + ((1,2,3),(3,1,2),(1,2,3))
 >>> y = Surjection.steenrod_adem_structure(r, i)
 >>> print(y)
 (1,2,3,1,2) + (1,3,1,2,3) + (1,2,3,2,3)
+>>> x = BarrattEccles.steenrod_adem_structure(r, i)
+>>> print(x)
+((1,2,3),(2,3,1),(3,1,2)) + ((1,2,3),(3,1,2),(1,2,3))
 \end{verbatim}
+
+\subsection{Steenrod operations}
+
+Let $A$ be a chain complex of $\mathbb Z$-modules. Let us assume the operad $End_A$ is equipped with a Steenrod-Adem structure $\psi \colon \mathcal W \to End_A$. For any prime $p$, define the linear map $D_d \colon A \otimes \mathbb F_p \to A \otimes \mathbb F_p$ by
+\begin{equation*}
+D_d(a) = \begin{cases}
+\psi(e_d)(a^{\otimes p})& d \geq 0 \\
+0 & d < 0.
+\end{cases}
+\end{equation*}
+As in \cite{May70algebraic}, for any integer $s$ the Steenrod operations
+\begin{equation*}
+P_s : H_\bullet(A; \mathbb F_2) \to H_{\bullet + s}(A; \mathbb F_2)
+\end{equation*}
+and
+\begin{align*}
+P_s & \colon H_\bullet(A; \mathbb F_p) \to H_{\bullet + 2s(p-1)}(A; \mathbb F_p) \\
+\beta P_s & \colon H_\bullet(A; \mathbb F_p) \to H_{\bullet + 2s(p-1) - 1}(A; \mathbb F_p)
+\end{align*}
+for $p > 2$, are defined for a class $[a]$ of degree $q$ respectively by
+\begin{equation*}
+P_s\big([a]\big) = \big[D_{s-q}(a)\big] \qquad
+\end{equation*}
+and
+\begin{align*}
+P_s\big([a]\big) & = \big[(-1)^s \nu(q) D_{(2s-q)(p-1)}(a)\big] \\
+\beta P_s\big([a]\big) & = \big[(-1)^s \nu(q)D_{(2s-q)(p-1)-1}(a)\big]
+\end{align*}
+where $\nu(q) = (-1)^{q(q-1)m/2}(m!)^q$ and $m = (p-1)/2$.
+
+In order to apply this construction to the cochains of simplicial and cubical sets, it suffices to construct a collection indexed by $r>0$ of natural $\S_r$-equivariant chains maps $\X(r) \to End^{C_\bullet}$, since the linear duality functor and the Steenrod-Adem structure on $\X$ will induce a Steenrod-Adem structure $\mathcal W \to \X \to End_{C^\bullet}$.
 
 \subsection{Interpreting surjections as linear maps}
 
-To connect with the theory of Steenrod operations on the cohomology of spaces, we need to describe how to interpret a surjection as an element in $Hom(C_\bullet, C_\bullet^{\otimes r})$. We use the diagrammatical language and constructions of \cite{medina2020prop1, medina2018prop2}. Represent a basis surjection element in $\mathcal X(r)_n$ as the labeled directed graph
+We will describe how to interpret an element in $\X(r)$ as an element in $Hom(C_\bullet, C_\bullet^{\otimes r})$, the chain complex of natural transformations from the functor of normalized chains to an iterated tensor product of itself. Although this categorical description seems very abstract, it is possible to identify this chain complex as a collection, indexed by the non-negative integers, of elements in $C_\bullet(\Delta^\infty)^{\otimes r}$ and $C_\bullet(\mathbb I^\infty)^{\otimes r}$. In \comch, elements in $C_\bullet(\Delta^\infty)^{\otimes r}$ and $C_\bullet(\mathbb I^\infty)^{\otimes r}$ are modeled using the \texttt{SimplicialElement} and \texttt{CubicalElement} classes.
+\begin{verbatim}
+>>> x = SimplicialElement({((0,1), (1,2,3), (2,3)): 1})
+>>> print(x._latex_())
+[0,1] \otimes [1,2,3] \otimes [2,3]
+>>> y = CubicalElement({((0,1), (2,1), (2,2)): 1})
+>>> print(y._latex_())
+[0][1] \otimes [01][1] \otimes [01][01]
+\end{verbatim}
+
+To describe the $\S_r$-equivariant chain map $\X(r) \to End_{C_\bullet}$ we follow \cite{medina2020prop1, medina2018prop2}. Represent a basis surjection element in $\mathcal X(r)_n$ as the labeled directed graph
 \begin{center}
 	\begin{tikzpicture}[scale=.65]
 	\draw (0,0)--(0,-.6) node[below, scale=.75]{$1$};
@@ -262,17 +308,44 @@ and
 \draw (0,.75)--(.5,1.25);
 \draw (0,.75)--(-.5,1.25);
 \end{tikzpicture}
-in $Hom(C_\bullet, C_\bullet^{\otimes 2})$ and $Hom(C_\bullet^{\otimes 2}, C_\bullet)$ respectively. As explained in \cite{medina2020chain}, this can be done when $C_\bullet$ is either the chains on a standard simplex or a standard cube, in manner such that the resulting linear map $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ is a chain map.
+in $Hom(C_\bullet, C_\bullet^{\otimes 2})$ and $Hom(C_\bullet^{\otimes 2}, C_\bullet)$ respectively. As explained in \cite{medina2020chain}, this can be done when $C_\bullet = C_\bullet(\Delta^\infty)$ or $C_\bullet(\mathbb I^\infty)$ resulting in $\S_r$-equivariant chain maps $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ for any positive integer $r$. We remark for the interested reader that both of these structures are induced from an $E_\infty$-bialgebra structure on the cellular chains of the interval.
 
-In \comch\, we implement models for $C_\bullet^{\otimes r}$ and describe the action of a surjection element. For example,
+In \comch\, we implement these constructions allowing for surjection elements to act on elements of $C_\bullet = C_\bullet(\Delta^\infty)$ or $C_\bullet(\mathbb I^\infty)$. For example,
 \begin{verbatim}
 >>> x = SurjectionElement({(1, 2, 1): 1}, convention='McClure-Smith')
->>> simplex = Simplicial.standard_element(2)
->>> print(x(simplex))
+>>> a = Simplicial.standard_element(2)
+>>> print(x(a))
 - ((0,1,2),(0,1)) + ((0,2),(0,1,2)) - ((0,1,2),(1,2))
->>> cube = Cubical.standard_element(2)
->>> print(x(cube))
+>>> b = Cubical.standard_element(2)
+>>> print(x(b))
 - ((2,2),(1,2)) + ((2,1),(2,2)) + ((0,2),(2,2)) - ((2,2),(2,0))
+\end{verbatim}
+
+\subsection{Examples}
+
+We remark that cochains being defined as $Hom(C_\bullet, R)$ concentrated in non-positive degrees. We only give examples in the simplicial context since in general the corresponding cubical expressions involve many more terms.
+
+1) Let us consider the prime $2$. The value $P_{-1}(x)\big([0,1,2,3,4]\big)$ for $x \in C^{-3}$ homogeneous is the value of $x^{\otimes 2}$ acting on the output of
+\begin{verbatim}
+>>> p, s, q = 2, -1, -3
+>>> print(Surjection.steenrod_chain(p, s, q))
+((0,1,2,3),(0,1,3,4)) + ((0,2,3,4),(0,1,2,4)) +
+((0,1,2,3),(1,2,3,4)) + ((0,1,3,4),(1,2,3,4))
+\end{verbatim}
+
+2) Let us consider the prime $3$. The value $\beta P_{-1}(x)\big([0,1,\dots,8]\big)$ for $x \in N^{-3}(\triangle^8)$ homogeneous is the value of $x^{\otimes 3}$ acting on the output of
+\begin{verbatim}
+p, s, q = 3, -1, -3
+print(Surjection.steenrod_chain(p, s, q, bockstein=True))
+2((0,6,7,8),(0,1,2,3),(3,4,5,6)) + ((0,1,7,8),(1,2,3,4),(4,5,6,7))
++ 2((0,1,2,8),(2,3,4,5),(5,6,7,8))
+\end{verbatim}
+
+3) Let us consider the prime $3$ again. The value $P_{-2}(x)\big([0,1,\dots,12]\big)$ for $x \in N^{-3}(\triangle^8)$ homogeneous is the value of $x^{\otimes 3}$ acting on the output of
+\begin{verbatim}
+>>> p, s, q = 3, -2, -4
+>>> print(Surjection.steenrod_chain(p, s, q, bockstein=False))
+((0,1,2,3,4),(4,5,6,7,8),(8,9,10,11,12))
 \end{verbatim}
 
 \bibliographystyle{ieeetr}
