@@ -31,7 +31,7 @@ pdfpagelabels]{hyperref}
 \keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product}
 
 \begin{abstract}
-	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the (co)product structure of (co)algebras (co)commutative in a derived sense. The primary example of these (co)algebras treated by \comch\, is the (co)chain complex of a space, and an important application for it is the first effective construction of its Steenrod operations.
+	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the (co)product structure of (co)algebras (co)commutative in a derived sense. The primary example of these (co)algebras treated by \comch\, is the (co)chain complex of a space, for which we make available the effective constructions of its Steenrod operations.
 \end{abstract} 
 
 \maketitle
@@ -42,15 +42,15 @@ All the basic notions of number, from the integers to the complex, are equipped 
 
 After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the algebraic category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
-The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{kapustin2017fermionic}, category theory \cite{medina2020globular} and others areas, and to provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020chain}, making available for the first time chain level representations of these invariants for spaces presented simplicially or cubically.
+The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{Kapustin2017}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020chain}, making available for the first time chain level representations of these invariants for spaces presented simplicially or cubically. When the prime is $2$, describing Steenrod operations at the chain level is classical and there implementations\footnote{See \texttt{Sage} for the simplicial case and \texttt{ChainCon} for the cubical.} based on \cite{GonReal1999, Pilarczyk2016}. For odd primes, we don't know of any existing implementations either for simplicial or cubical sets. In the former case, an alternative effective approach to \cite{medina2020chain} was developed by Gonzales-Diaz and Real \cite{GonReal2003, GonReal2005} based on the Eilenberg–Zilber contraction.
 
 \tableofcontents
 
 \section*{Acknowledgment}
 We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith. We thank Dennis Sullivan, Kathryn Hess, John Morgan, Greg Brumfiel, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, Guillaume Tauzin, and Lewis Tunstall for insightful conversations. We also thank the Laboratory for Topology and Neuroscience at EPFL for its support and hospitality while part of this work was developed.
 
-\section{Overview of \comch}
-In this section we describe the overall structure and main functionalities of \comch, refering to its documentation for a complete description of its classes and their methods.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
+\section{Overview of \comch} \label{s: overview}
+In this section we describe the overall structure and main functionalities of \comch, refering to its documentation for a description of all of its classes and their methods.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
 
 \subsection{Free modules and symmetric groups}
 
@@ -71,7 +71,7 @@ is equipped with the following structure: a left action of $\S_r$ on $End^C(r)$ 
 \end{equation*}
 satisfying forms of equivariance, associativity, and unitality.
 
-An $\mathcal O$-coalgebra structure on $C$ is a structure preserving morphism from $\mathcal O$ to $End^C$. We remark that it is also common to consider the operad $End_A$ obtained from the complexes $End_A(r) = Hom(A^{\otimes r}, A)$, referring to morphisms $\mathcal O \to End_A$ as $\mathcal O$-algebras. The linear duality functor induces from an $\mathcal O$-coalgebra in $C$ an $\mathcal O$-algebra structure on $Hom(C, R)$. In subsection \ref{label} we will overview the example given by (co)chains of simplicial sets.
+An $\mathcal O$-coalgebra structure on $C$ is a structure preserving morphism from $\mathcal O$ to $End^C$. We remark that it is also common to consider the operad $End_A$ obtained from the complexes $End_A(r) = Hom(A^{\otimes r}, A)$, referring to operad morphisms $\mathcal O \to End_A$ as $\mathcal O$-algebra structures on $A$. The linear duality functor induces from an $\mathcal O$-coalgebra in $C$ an $\mathcal O$-algebra structure on $A = Hom(C, R)$.
 
 \subsection{Symmetric ring operad}
 
@@ -191,7 +191,7 @@ We illustrate its implmentation in \comch\, with the following example.
 (((1, 2),), ((1, 2), (2, 1))) + (((1, 2), (2, 1)), ((2, 1),))
 \end{verbatim}
 
-\section{Steenrod operations}
+\section{Steenrod operations} \label{s: steenrod operations}
 
 In this section we effectively describe how to compute Steenrod operations for the mod-$p$ cohomology of spaces presented as simplicial or cubical sets. The implementation of these algorithms is one of the main novel contributions of \comch\, to the software base used in algebraic topology. See also, \cite{}.
 
@@ -325,7 +325,7 @@ In \comch\, we implement these constructions allowing for surjection elements to
 
 We remark that cochains being defined as $Hom(C_\bullet, R)$ concentrated in non-positive degrees. We only give examples in the simplicial context since in general the corresponding cubical expressions involve many more terms.
 
-1) Let us consider the prime $2$. The value $P_{-1}(x)\big([0,1,2,3,4]\big)$ for $x \in C^{-3}$ homogeneous is the value of $x^{\otimes 2}$ acting on the output of
+1) Let us consider the prime $2$. The value $P_{-1}(x)\big([0,1,2,3,4]\big)$ for $x$ homogeneous of degree $-3$ is the value of $x^{\otimes 2}$ on the output of
 \begin{verbatim}
 >>> p, s, q = 2, -1, -3
 >>> print(Surjection.steenrod_chain(p, s, q))
@@ -333,20 +333,33 @@ We remark that cochains being defined as $Hom(C_\bullet, R)$ concentrated in non
 ((0,1,2,3),(1,2,3,4)) + ((0,1,3,4),(1,2,3,4))
 \end{verbatim}
 
-2) Let us consider the prime $3$. The value $\beta P_{-1}(x)\big([0,1,\dots,8]\big)$ for $x \in N^{-3}(\triangle^8)$ homogeneous is the value of $x^{\otimes 3}$ acting on the output of
+2) Let us consider the prime $3$. The value $\beta P_{-1}(x)\big([0,1,\dots,8]\big)$ for $x$ homogeneous of degree $-3$ is the value of $x^{\otimes 3}$ on the output of
 \begin{verbatim}
-p, s, q = 3, -1, -3
-print(Surjection.steenrod_chain(p, s, q, bockstein=True))
+>>> p, s, q = 3, -1, -3
+>>> print(Surjection.steenrod_chain(p, s, q, bockstein=True))
 2((0,6,7,8),(0,1,2,3),(3,4,5,6)) + ((0,1,7,8),(1,2,3,4),(4,5,6,7))
 + 2((0,1,2,8),(2,3,4,5),(5,6,7,8))
 \end{verbatim}
 
-3) Let us consider the prime $3$ again. The value $P_{-2}(x)\big([0,1,\dots,12]\big)$ for $x \in N^{-3}(\triangle^8)$ homogeneous is the value of $x^{\otimes 3}$ acting on the output of
+3) Let us consider the prime $3$ again. The value $P_{-2}(x)\big([0,1,\dots,12]\big)$ for $x$ homogeneous of degree $-4$ is the value of $x^{\otimes 3}$ on the output of
 \begin{verbatim}
 >>> p, s, q = 3, -2, -4
 >>> print(Surjection.steenrod_chain(p, s, q, bockstein=False))
 ((0,1,2,3,4),(4,5,6,7,8),(8,9,10,11,12))
 \end{verbatim}
+\section{Outlook}
+
+Secondary,
+
+category theory,
+
+geometry,
+
+lattice theory,
+
+giotto,
+
+
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliography}
