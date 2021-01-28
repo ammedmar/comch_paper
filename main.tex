@@ -1,6 +1,7 @@
 %\documentclass[microtype]{gtpart}
 \documentclass{amsart}
 \usepackage{tikz-cd}
+\usepackage{fancyvrb}
 \usepackage[bookmarks=true, linktocpage=true,
 bookmarksnumbered=true, breaklinks=true,
 pdfstartview=FitH, hyperfigures=false,
@@ -27,11 +28,11 @@ pdfpagelabels]{hyperref}
 \email{ammedmar@mpim-bonn.mpg.de}
 \address{Department of Mathematics, University of Notre Dame, Notre Dame, IN, USA}
 \email{amedinam@nd.edu}
-\thanks{A.M-M. acknowledges financial support from Innosuisse grant \mbox{32875.1 IP-ICT - 1}, and the hospitality of the Max Plank Institute for Mathematics.}
+\thanks{The author acknowledges financial support from Innosuisse grant \mbox{32875.1 IP-ICT - 1}.}
 \keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product}
 
 \begin{abstract}
-	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the (co)product structure of (co)algebras (co)commutative in a derived sense. The primary example of these (co)algebras treated by \comch\, is the (co)chain complex of a space, for which we make available the effective constructions of its Steenrod operations.
+	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense. The primary examples of such algebras treated by \comch\, are the cochain complexes of spaces, for which we make available effective constructions of all Steenrod cohomology operations.
 \end{abstract} 
 
 \maketitle
@@ -42,12 +43,12 @@ All the basic notions of number, from the integers to the complex, are equipped 
 
 After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the algebraic category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
-The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{Kapustin2017}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020chain}, making available for the first time chain level representations of these invariants for spaces presented simplicially or cubically. When the prime is $2$, describing Steenrod operations at the chain level is classical and there implementations\footnote{See \texttt{Sage} for the simplicial case and \texttt{ChainCon} for the cubical.} based on \cite{GonReal1999, Pilarczyk2016}. For odd primes, we don't know of any existing implementations either for simplicial or cubical sets. In the former case, an alternative effective approach to \cite{medina2020chain} was developed by Gonzales-Diaz and Real \cite{GonReal2003, GonReal2005} based on the Eilenberg–Zilber contraction.
-
-\tableofcontents
+The homology of algebras over $E_n$-operads are not only equipped with an induced commutative product but also, when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$, with homology operations. The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{Kapustin2017}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020chain}, making available for the first time chain level representations of these invariants for spaces presented simplicially or cubically. When the prime is $2$, describing Steenrod operations at the chain level is classical and there are implementations\footnote{See \texttt{Sage} for the simplicial case and \texttt{ChainCon} for the cubical.} based on \cite{GonReal1999, Pilarczyk2016}. For odd primes, we do not know of any previous implementation either for simplicial or cubical sets. In the former case, an alternative effective theoretical approach to \cite{medina2020chain} was developed by Gonzales-Diaz and Real \cite{GonReal2003, GonReal2005} based on the Eilenberg–Zilber contraction.
 
 \section*{Acknowledgment}
 We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith. We thank Dennis Sullivan, Kathryn Hess, John Morgan, Greg Brumfiel, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, Guillaume Tauzin, and Lewis Tunstall for insightful conversations. We also thank the Laboratory for Topology and Neuroscience at EPFL for its support and hospitality while part of this work was developed.
+
+\tableofcontents
 
 \section{Overview of \comch} \label{s: overview}
 In this section we describe the overall structure and main functionalities of \comch, refering to its documentation for a description of all of its classes and their methods.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
@@ -86,14 +87,14 @@ sending a pair $(x, y)$ to the bijection $x \circ_i y$ represented diagrammatica
 More precisely, $x \circ_i y$ is the sequence obtained by replacing the $i$-th value of $x$ with the sequence obtained by adding $i-1$ to the values of $y$, and shifting up by $s-1$ the values of $x$ greater than $s$. 
 
 We model elements in $R[\S]$ using the class \texttt{SymmetricRingElement} which combines the classes \texttt{FreeModuleElement} and \texttt{SymmetricGroupElement}. For example, we have
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 >>> x = SymmetricRingElement({(2,3,1): -1, (1,3,2): 1})
 >>> y = SymmetricRingElement({(1,3,2): 1, (1,2,3): 2})
 >>> print(x * y)
 - (2,1,3) - 2(2,3,1) + (1,2,3) + 2(1,3,2)
 >>> print(x.compose(y, 2))
 - (2,4,3,5,1) - 2(2,3,4,5,1) + (1,5,2,4,3) + 2(1,5,2,3,4)
-\end{verbatim}
+\end{Verbatim}
 
 \subsection{$E_\infty$-operads}
 
@@ -106,37 +107,37 @@ We represent a surjection $x$ as the sequences of its values $\big( x(1), \dots,
 \begin{equation*}
 \partial x = \sum_{i = 1}^{r+d} \pm \big( x(1), \dots, \widehat{x(i)}, \dots, x(n+r) \big),
 \end{equation*}
-and the $i$-th composition $x \circ_i y$ of $x \in \mathcal X(r)$ and $y \in \mathcal X(s)$ by the following. Let $w$ be the cardinality of $x^{-1}(i)$. For every collection of \textit{ordered indices}
-\begin{equation*}
+and the $i$-th composition $x \circ_i y$ of $x \in \mathcal X(r)$ and $y \in \mathcal X(s)$ is defined, up to signs, as follows. Let $w$ be the cardinality of $x^{-1}(i)$. For every collection of \textit{ordered indices}
+\begin{equation} \label{e: order indices}
 1 = j_0 \leq j_1 \leq j_2 \leq \cdots \leq j_{w-1} \leq j_w = s
-\end{equation*}
+\end{equation}
 we construct an associated splitting of $y$
 \begin{equation*}
 (y(j_0), \dots, y(j_1));\ (y(j_1), \dots, y(j_2));\ \cdots \ ;\ (y(j_{w-1}), \dots, y(j_w)).
 \end{equation*}
-The element $x \circ_i y \in \X(r+s-1)$ is represented, up to signs, as the sum over all possible collections of order indices of the sequence obtained in the following three steps: 1) shift up by $s-1$ the values of $x$ greater than $i$, then 2) shift up by $i-1$ the values of each sequence in the associated splitting of $y$, and finally 3) replace in order the occurrences of $i$ in $x$ by the corresponding sequence in the splitting.
+The element $x \circ_i y \in \X(r+s-1)$ is represented as the sum over the set of order indices \eqref{e: order indices} of the sequence obtained in the following three steps: 1) shift up by $s-1$ the values of $x$ greater than $i$, then 2) shift up by $i-1$ the values of each sequence in the associated splitting of $y$, and finally 3) replace in order the occurrences of $i$ in $x$ by the corresponding sequence in the splitting.
 
 The elements in this operad are modeled using the class \texttt{SurjectionElement}. For example,
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 >>> x = SurjectionElement({(1,2,1,3): 1})
 >>> print(x.boundary())
 (2,1,3) - (1,2,3)
 >>> y = SurjectionElement({(1,2,1): 1})
 >>> print({x.compose(y, 1))
 (1,3,1,2,1,4) - (1,2,3,2,1,4) - (1,2,1,3,1,4)
-\end{verbatim}
+\end{Verbatim}
 
-The signs appearing in these constructions are determined by the attribute \texttt{convention} with possible values the strings \texttt{McClure-Smith} and \texttt{Berger-Fresse}. We refer to \cite{McClureSmith03} and \cite{BergerFresse04} for details.
+The signs appearing in these constructions are determined by the attribute \texttt{convention} with possible values the strings \texttt{McClure-Smith} and \texttt{Berger-Fresse}. We refer to \cite{McClureSmith03} and \cite{BergerFresse04} for details on these distinct sign conventions.
 
 We will now review the definition of the complexity of a surjection element. The importance of this concept is that the set of surjection elements with complexity less than $n$ defines an $E_n$-suboperad of $\mathcal X$ \cite{McClureSmith03}.
 
 The complexity of a finite binary sequence (i.e. a sequence of two distinct values) is defined as the number of consecutive distinct elements in it. For example, (1,2,2,1) and (1,1,1,2) have complexities 2 and 1 respectively. The complexity of a basis surjection element is defined as the maximum value of the complexities of its binary subsequences. Notice that for elements in $\mathcal X(2)$, complexity and degree agree. The class \texttt{SurjectionElement} models this concept with the attribute \texttt{complexity}.
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 >>> x = SurjectionElement({(1,2,1,3,1): 1})
 >>> print(x.complexity)
 1
-\end{verbatim}
+\end{Verbatim}
 
 \subsection{Barratt-Eccles operad}
 
@@ -150,50 +151,48 @@ It is equipped with a left $\mathrm S_r$-action defined on basis elements by
 \begin{equation*}
 \sigma (\sigma_0, \dots, \sigma_n) = (\sigma \sigma_0, \dots, \sigma \sigma_n).
 \end{equation*}
-The chain complex resulting from applying the functor of normalized $R$-chains to it is denoted $\mathcal E(r)$ and the underlying set of the Barratt-Eccles operad is $\mathcal E = \{\mathcal E(r)\}_{r\geq0}$. To define its composition structure we use the Eilenberg-Zilber map. Let us notice that at the level of the simplicial sets $E(\S_r)$ we have compositions
+The chain complex resulting from applying the functor of normalized $R$-chains to it is denoted $\mathcal E(r)$, and the underlying set of the Barratt-Eccles operad is $\mathcal E = \{\mathcal E(r)\}_{r\geq0}$. To define its composition structure we use the Eilenberg-Zilber map. Let us notice that at the level of the simplicial sets $E(\S_r)$ we have compositions
 \begin{equation*}
 {\circ}_{i}: E(r) \times E(s) \to E(r + s - 1)
 \end{equation*}
 induced coordinate-wise from $\eqref{eq: compostion of permutations}$.
-We define the composition of $\mathcal E$ by precomposing
+We define the composition maps on $\mathcal E$ by precomposing
 \begin{equation*}
 N_\bullet(\circ_i) \colon N_\bullet(E(r) \times E(s))
 \longrightarrow
 N_\bullet(E(r + s - 1)) = \mathcal E(r+s-1)
 \end{equation*}
-with the iterated Eilenberg-Zilber map
+with the Eilenberg-Zilber map
 \begin{equation*}
 \mathcal E(r) \otimes \mathcal E(s) =
 N_\bullet(E(r)) \otimes N_\bullet(E(s))
 \longrightarrow
 N_\bullet(E(r) \times E(s)).
 \end{equation*}
-For example,
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 >>> x = BarrattEcclesElement({((1,2),(2,1)):1, ((2,1),(1,2)):2})
 >>> print(x.boundary())
 ((1,2),) - ((2,1),)
 >>> y = BarrattEcclesElement({((2,1,3),):3})
 >>> print(x.compose(y, 2))
 3((1,3,2,4),(3,2,4,1)) + 6((3,2,4,1),(1,3,2,4))
-\end{verbatim}
+\end{Verbatim}
 
-The complexity of a Barratt-Eccles element is define analogously to that of surjection elements. In this case too, the subset of elements with complexity less than $n$ defines an $E_n$-suboperad \cite{BergerFresse04}.
+The complexity of a Barratt-Eccles element is define analogously to that of surjection elements. In this case too the subset of elements with complexity less than $n$ defines an $E_n$-suboperad \cite{BergerFresse04}.
 
-An important structure present in the Barratt-Eccles operad missing in the surjection operad is a diagonal chain map compatible with compositions. It is the Alexander-Whitney diagonal defined on basis Barratt-Eccles element by
+An important structure present in the Barratt-Eccles operad missing in the surjection operad is a diagonal chain map compatible with compositions. It is given by the Alexander-Whitney diagonal which on basis Barratt-Eccles element is
 \begin{equation*}
 \Delta(\sigma_0, \dots, \sigma_n) = \sum_{i=1}^n (\sigma_0, \dots, \sigma_i) \otimes (\sigma_i, \dots, \sigma_n).
 \end{equation*}
-We illustrate its implmentation in \comch\, with the following example.
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 >>> x = BarrattEcclesElement({((1,2), (2,1)): 1})
 >>> print(x.diagonal())
 (((1, 2),), ((1, 2), (2, 1))) + (((1, 2), (2, 1)), ((2, 1),))
-\end{verbatim}
+\end{Verbatim}
 
 \section{Steenrod operations} \label{s: steenrod operations}
 
-In this section we effectively describe how to compute Steenrod operations for the mod-$p$ cohomology of spaces presented as simplicial or cubical sets. The implementation of these algorithms is one of the main novel contributions of \comch\, to the software base used in algebraic topology. See also, \cite{}.
+In this section we effectively describe how to compute Steenrod operations on the mod-$p$ cohomology of spaces presented as simplicial or cubical sets. The implementation of these algorithms is one of the main novel contributions of \comch\, to the available software used in algebraic topology.
 
 \subsection{Steenrod-Adem structures}
 
@@ -211,9 +210,9 @@ a preferred basis element of $\mathcal W(r)_i$ by $e_i$.
 A Steenrod-Adem structure on an operad $\mathcal O$ is a collection indexed by $r > 0$ of $\mathrm C_r$-equivariant chain maps $\mathcal W(r) \stackrel{\psi_r}{\longrightarrow} \mathcal O(r)$ for which there exists a factorization through an $E_\infty$-operad $\mathcal W(r) \to \mathcal R(r) \to \mathcal O(r)$ such that the first map is a weak equivalence and the second induces a morphism of operads.
 For any pair of integers $r$ and $i$, a Steenrod-Adem structure produces a preferred element $\psi_r(e_i)$ in $\mathcal O(r)_i$.
 
-Steenrod-Adem structures for the surjection and Barratt-Eccles operads are implemented in \comch\, following their introduction in \cite{medina2020chain}. For example,
+Steenrod-Adem structures for the surjection and Barratt-Eccles operads are implemented in \comch\, following their introduction in \cite{medina2020chain}.
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 >>> r, i = 3, 2
 >>> y = Surjection.steenrod_adem_structure(r, i)
 >>> print(y)
@@ -221,14 +220,14 @@ Steenrod-Adem structures for the surjection and Barratt-Eccles operads are imple
 >>> x = BarrattEccles.steenrod_adem_structure(r, i)
 >>> print(x)
 ((1,2,3),(2,3,1),(3,1,2)) + ((1,2,3),(3,1,2),(1,2,3))
-\end{verbatim}
+\end{Verbatim}
 
 \subsection{Steenrod operations}
 
 Let $A$ be a chain complex of $\mathbb Z$-modules. Let us assume the operad $End_A$ is equipped with a Steenrod-Adem structure $\psi \colon \mathcal W \to End_A$. For any prime $p$, define the linear map $D_d \colon A \otimes \mathbb F_p \to A \otimes \mathbb F_p$ by
 \begin{equation*}
 D_d(a) = \begin{cases}
-\psi(e_d)(a^{\otimes p})& d \geq 0 \\
+\psi(e_d)(a^{\otimes p}) & d \geq 0, \\
 0 & d < 0.
 \end{cases}
 \end{equation*}
@@ -236,37 +235,37 @@ As in \cite{May70algebraic}, for any integer $s$ the Steenrod operations
 \begin{equation*}
 P_s : H_\bullet(A; \mathbb F_2) \to H_{\bullet + s}(A; \mathbb F_2)
 \end{equation*}
-and
+and, for $p > 2$,
 \begin{align*}
 P_s & \colon H_\bullet(A; \mathbb F_p) \to H_{\bullet + 2s(p-1)}(A; \mathbb F_p) \\
 \beta P_s & \colon H_\bullet(A; \mathbb F_p) \to H_{\bullet + 2s(p-1) - 1}(A; \mathbb F_p)
 \end{align*}
-for $p > 2$, are defined for a class $[a]$ of degree $q$ respectively by
+are defined for a class $[a]$ of degree $q$ respectively by
 \begin{equation*}
 P_s\big([a]\big) = \big[D_{s-q}(a)\big] \qquad
 \end{equation*}
 and
 \begin{align*}
-P_s\big([a]\big) & = \big[(-1)^s \nu(q) D_{(2s-q)(p-1)}(a)\big] \\
-\beta P_s\big([a]\big) & = \big[(-1)^s \nu(q)D_{(2s-q)(p-1)-1}(a)\big]
+P_s\big([a]\big) & = \big[(-1)^s \nu(q) D_{(2s-q)(p-1)}(a)\big], \\
+\beta P_s\big([a]\big) & = \big[(-1)^s \nu(q)D_{(2s-q)(p-1)-1}(a)\big],
 \end{align*}
 where $\nu(q) = (-1)^{q(q-1)m/2}(m!)^q$ and $m = (p-1)/2$.
 
-In order to apply this construction to the cochains of simplicial and cubical sets, it suffices to construct a collection indexed by $r>0$ of natural $\S_r$-equivariant chains maps $\X(r) \to End^{C_\bullet}$, since the linear duality functor and the Steenrod-Adem structure on $\X$ will induce a Steenrod-Adem structure $\mathcal W \to \X \to End_{C^\bullet}$.
+In order to apply this construction to the cochains of simplicial and cubical sets, it suffices to construct a collection indexed by $r>0$ of natural $\S_r$-equivariant chains maps $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$, since the linear duality functor and the Steenrod-Adem structure on $\X$ will induce a Steenrod-Adem structure $\mathcal W \to \X \to End_{C^\bullet}$.
 
 \subsection{Interpreting surjections as linear maps}
 
-We will describe how to interpret an element in $\X(r)$ as an element in $Hom(C_\bullet, C_\bullet^{\otimes r})$, the chain complex of natural transformations from the functor of normalized chains to an iterated tensor product of itself. Although this categorical description seems very abstract, it is possible to identify this chain complex as a collection, indexed by the non-negative integers, of elements in $C_\bullet(\Delta^\infty)^{\otimes r}$ and $C_\bullet(\mathbb I^\infty)^{\otimes r}$. In \comch, elements in $C_\bullet(\Delta^\infty)^{\otimes r}$ and $C_\bullet(\mathbb I^\infty)^{\otimes r}$ are modeled using the \texttt{SimplicialElement} and \texttt{CubicalElement} classes.
-\begin{verbatim}
+We will describe how to interpret an element in $\X(r)$ as an element in $Hom(C_\bullet, C_\bullet^{\otimes r})$, the chain complex of natural transformations from the functor of normalized chains to an iterated tensor product of itself. An element in this abstractly described chain complex can be more concretely described as a set, indexed by the non-negative integers, of elements in $C_\bullet(\Delta^\infty)^{\otimes r}$ and $C_\bullet(\mathbb I^\infty)^{\otimes r}$ restricted by certain conditions. In \comch, elements in $C_\bullet(\Delta^\infty)^{\otimes r}$ and $C_\bullet(\mathbb I^\infty)^{\otimes r}$ are modeled using the \texttt{SimplicialElement} and \texttt{CubicalElement} classes.
+\begin{Verbatim}[frame=single]
 >>> x = SimplicialElement({((0,1), (1,2,3), (2,3)): 1})
 >>> print(x._latex_())
 [0,1] \otimes [1,2,3] \otimes [2,3]
 >>> y = CubicalElement({((0,1), (2,1), (2,2)): 1})
 >>> print(y._latex_())
 [0][1] \otimes [01][1] \otimes [01][01]
-\end{verbatim}
+\end{Verbatim}
 
-To describe the $\S_r$-equivariant chain map $\X(r) \to End_{C_\bullet}$ we follow \cite{medina2020prop1, medina2018prop2}. Represent a basis surjection element in $\mathcal X(r)_n$ as the labeled directed graph
+To describe the $\S_r$-equivariant chain map $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ we follow \cite{medina2020prop1, medina2018prop2}, and represent a basis surjection element in $\mathcal X(r)_n$ as the labeled directed graph
 \begin{center}
 	\begin{tikzpicture}[scale=.65]
 	\draw (0,0)--(0,-.6) node[below, scale=.75]{$1$};
@@ -296,7 +295,7 @@ To describe the $\S_r$-equivariant chain map $\X(r) \to End_{C_\bullet}$ we foll
 	\node at (2.85,0){};
 	\end{tikzpicture}
 \end{center}
-where there are no hidden vertices and the strands at the top are joined to the strands in the bottom using the surjection. Any such graph gives rise to a map in $Hom(C_\bullet, C_\bullet^{\otimes r})$ after associating maps to the generating pieces
+where there are no hidden vertices and the strands at the top are joined to the strands at the bottom using the information prescribed by the surjection. Any such graph gives rise to a map in $Hom(C_\bullet, C_\bullet^{\otimes r})$ after associating maps to the generating pieces
 \begin{tikzpicture}[scale=.25]
 \draw (0,.5)--(0,1.25);
 \draw (0,.5)--(.5,0);
@@ -308,58 +307,52 @@ and
 \draw (0,.75)--(.5,1.25);
 \draw (0,.75)--(-.5,1.25);
 \end{tikzpicture}
-in $Hom(C_\bullet, C_\bullet^{\otimes 2})$ and $Hom(C_\bullet^{\otimes 2}, C_\bullet)$ respectively. As explained in \cite{medina2020chain}, this can be done when $C_\bullet = C_\bullet(\Delta^\infty)$ or $C_\bullet(\mathbb I^\infty)$ resulting in $\S_r$-equivariant chain maps $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ for any positive integer $r$. We remark for the interested reader that both of these structures are induced from an $E_\infty$-bialgebra structure on the cellular chains of the interval.
+in $Hom(C_\bullet, C_\bullet^{\otimes 2})$ and $Hom(C_\bullet^{\otimes 2}, C_\bullet)$ respectively. As explained in \cite{medina2020chain}, this can be done when $C_\bullet = C_\bullet(\Delta^\infty)$ or $C_\bullet(\mathbb I^\infty)$. We remark for the interested reader that both of these structures are induced from an $E_\infty$-bialgebra structure on the cellular chains of the interval.
 
-In \comch\, we implement these constructions allowing for surjection elements to act on elements of $C_\bullet = C_\bullet(\Delta^\infty)$ or $C_\bullet(\mathbb I^\infty)$. For example,
-\begin{verbatim}
->>> x = SurjectionElement({(1, 2, 1): 1}, convention='McClure-Smith')
+In \comch\, we implement these constructions allowing for surjection elements to act on elements of $C_\bullet = C_\bullet(\Delta^\infty)$ or $C_\bullet(\mathbb I^\infty)$.
+
+\begin{Verbatim}[frame=single]
+>>> x = SurjectionElement({(1,2,1): 1}, convention='McClure-Smith')
 >>> a = Simplicial.standard_element(2)
 >>> print(x(a))
 - ((0,1,2),(0,1)) + ((0,2),(0,1,2)) - ((0,1,2),(1,2))
 >>> b = Cubical.standard_element(2)
 >>> print(x(b))
 - ((2,2),(1,2)) + ((2,1),(2,2)) + ((0,2),(2,2)) - ((2,2),(2,0))
-\end{verbatim}
+\end{Verbatim}
 
 \subsection{Examples}
 
-We remark that cochains being defined as $Hom(C_\bullet, R)$ concentrated in non-positive degrees. We only give examples in the simplicial context since in general the corresponding cubical expressions involve many more terms.
+We remark that cochains, being defined as $Hom(C_\bullet, R)$, are concentrated in non-positive degrees. We will only give examples in the simplicial context since, in general, the corresponding cubical expressions involve many more terms.
 
-1) Let us consider the prime $2$. The value $P_{-1}(x)\big([0,1,2,3,4]\big)$ for $x$ homogeneous of degree $-3$ is the value of $x^{\otimes 2}$ on the output of
-\begin{verbatim}
+1) Let us consider the prime $2$. The value $P_{-1}(x)\big([0,1,2,3,4]\big)$ for $x$ homogeneous of degree $-3$ is the value of $x^{\otimes 2}$ on the following output
+\begin{Verbatim}[frame=single]
 >>> p, s, q = 2, -1, -3
 >>> print(Surjection.steenrod_chain(p, s, q))
 ((0,1,2,3),(0,1,3,4)) + ((0,2,3,4),(0,1,2,4)) +
 ((0,1,2,3),(1,2,3,4)) + ((0,1,3,4),(1,2,3,4))
-\end{verbatim}
+\end{Verbatim}
 
-2) Let us consider the prime $3$. The value $\beta P_{-1}(x)\big([0,1,\dots,8]\big)$ for $x$ homogeneous of degree $-3$ is the value of $x^{\otimes 3}$ on the output of
-\begin{verbatim}
+2) Let us consider the prime $3$. The value $\beta P_{-1}(x)\big([0,1,\dots,8]\big)$ for $x$ homogeneous of degree $-3$ is the value of $x^{\otimes 3}$ on the following output
+\begin{Verbatim}[frame=single]
 >>> p, s, q = 3, -1, -3
 >>> print(Surjection.steenrod_chain(p, s, q, bockstein=True))
 2((0,6,7,8),(0,1,2,3),(3,4,5,6)) + ((0,1,7,8),(1,2,3,4),(4,5,6,7))
 + 2((0,1,2,8),(2,3,4,5),(5,6,7,8))
-\end{verbatim}
+\end{Verbatim}
 
-3) Let us consider the prime $3$ again. The value $P_{-2}(x)\big([0,1,\dots,12]\big)$ for $x$ homogeneous of degree $-4$ is the value of $x^{\otimes 3}$ on the output of
-\begin{verbatim}
+3) Let us consider the prime $3$ again. The value $P_{-2}(x)\big([0,1,\dots,12]\big)$ for $x$ homogeneous of degree $-4$ is the value of $x^{\otimes 3}$ on the following output
+\begin{Verbatim}[frame=single]
 >>> p, s, q = 3, -2, -4
 >>> print(Surjection.steenrod_chain(p, s, q, bockstein=False))
 ((0,1,2,3,4),(4,5,6,7,8),(8,9,10,11,12))
-\end{verbatim}
+\end{Verbatim}
+
 \section{Outlook}
 
-Secondary,
+Operations on the homology of algebras that are only $E_n$ for a finite $n$ are well understood homologically \cite{Cohen76}, but not at the chain level for $n>2$. The case $n=2$ has been studied by Tourtchine \cite{Tourtchine06} and will be implemented in \comch\, soon.
 
-category theory,
-
-geometry,
-
-lattice theory,
-
-giotto,
-
-
+Secondary operations result from relations among primary operations like those defined by Steenrod. The Cartan and Adem Relations are of particular importance, and effective descriptions of cochains enforcing them is an important open problem for $p > 2$. The case $p=2$ was treated by Brumfiel, Morgan and the author \cite{medina2020cartan, brumfiel2020cochain} and will soon be implemented in \comch.  
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliography}
