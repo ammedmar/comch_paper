@@ -1,4 +1,3 @@
-%\documentclass[microtype]{gtpart}
 \documentclass{amsart}
 \usepackage{tikz-cd}
 \usepackage{fancyvrb}
@@ -32,6 +31,8 @@ pdfpagelabels]{hyperref}
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\X}{\mathcal X}
 
+\newcommand{\rev}[1]{\textcolor{red}{#1}} % red/black
+
 \begin{document}
 	
 \title[A C.A.S. for the study of commutativity up-to-coherent homotopies]{A computer algebra system for the study of commutativity up-to-coherent homotopies}
@@ -40,12 +41,12 @@ pdfpagelabels]{hyperref}
 \email{ammedmar@mpim-bonn.mpg.de}
 \address{Department of Mathematics, University of Notre Dame, Notre Dame, IN, USA}
 \email{amedinam@nd.edu}
-\thanks{The author acknowledges financial support from Innosuisse grant \mbox{32875.1 IP-ICT - 1}.}
+\thanks{The author acknowledges financial support from Innosuisse grant \mbox{32875.1 IP-ICT - 1} and the hospitality of the Laboratory for Topology and Neuroscience at EPFL while part of this work developed.}
 \keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product, simplicial set, cubical set.}
 \subjclass[2020]{Primary 55-04, 18M60; Secondary 55S05,  	18M70, 55N31.}
 
 \begin{abstract}
-	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense. The primary examples of such algebras treated by \comch\, are the cochain complexes of spaces, for which it provides effective constructions of Steenrod cohomology operations at all prime.
+	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense. The primary examples of such algebras treated by \comch\, are the cochain complexes of spaces, for which it provides effective constructions of Steenrod cohomology operations at all prime\rev{s}.
 \end{abstract} 
 
 \vspace*{-.8cm}
@@ -55,7 +56,9 @@ pdfpagelabels]{hyperref}
 \section{Introduction}
 
 All the basic notions of number, from the integers to the complex, are equipped with a commutative product, and it was believed until Hamilton's introduction of the quaternions, that the product of any number system must be commutative.
-Hamilton's discovery encouraged the consideration of other algebraic structures where commutativity was not demanded, and the effect this had on algebra is only comparable to that of non-euclidean geometries on the study of spaces.\footnote{See for example Chapter V of \cite{Kline1982}.} Around a century later, after the development of topology and homotopy, commutativity was revisited and additional levels enriching the basic dichotomy were identified. These correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of much current research on theoretical and applied topology.
+Hamilton's discovery encouraged the consideration of other algebraic structures where commutativity was not demanded, and the effect this had on algebra is only comparable to that of non-euclidean geometries on the study of spaces \cite[Ch.V]{Kline1982}.
+Around a century later, after the development of topology and homotopy, commutativity was revisited and additional levels enriching the basic dichotomy were identified.
+These correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of much current research on theoretical and applied topology.
 
 After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
@@ -63,7 +66,7 @@ The homology of algebras over $E_n$-operads are equipped not only with an induce
 The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{Kapustin2017}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020chain}, making available for the first time chain level representations of these invariants for spaces presented simplicially or cubically. When the prime is $2$, describing Steenrod operations at the chain level is classical and there are implementations for the simplicial \cite{GonReal1999} and cubical \cite{Pilarczyk2016} cases in \texttt{Sage} \cite{sage} and \texttt{ChainCon} \cite{chaincon} respectively. For odd primes, we do not know of any previous implementation either in the simplicial or cubical contexts. In the former case, a different effective approach was developed by Gonzales-Diaz and Real \cite{GonReal2003, GonReal2005} based on the Eilenberg–Zilber contraction.
 
 \section*{Acknowledgment}
-We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith. We thank Dennis Sullivan, Kathryn Hess, John Morgan, Greg Brumfiel, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, Guillaume Tauzin, and Lewis Tunstall for insightful conversations. We also thank the Laboratory for Topology and Neuroscience at EPFL for its support and hospitality while part of this work was developed.
+We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith. We thank Dennis Sullivan, Kathryn Hess, John Morgan, Greg Brumfiel, Ralph Kaufmann, Paolo Salvatore, Umberto Lupo, Guillaume Tauzin, and Lewis Tunstall for insightful conversations.
 
 \tableofcontents
 
@@ -211,7 +214,7 @@ For example,
 
 In this section we effectively describe how to compute Steenrod operations on the mod-$p$ cohomology of spaces presented as simplicial or cubical sets. The implementation of these algorithms is one of the main novel contributions of \comch\, to the available software used in algebraic topology.
 
-\subsection{Steenrod-Adem structures}
+\subsection{May-Steenrod structures}
 
 Let $\mathrm{C}_r$ be the cyclic group of order $r$ thought of as the subgroup of $\mathrm{S}_r$ generated by an element $\rho$. The elements
 \begin{equation*}
@@ -223,17 +226,17 @@ in $R[C_r]$ define a minimal resolution of $R$ by free $R[C_r]$-modules
 \end{equation*}
 We denote a preferred basis element of $\mathcal W(r)_i$ by $e_i$.
 
-A Steenrod structure on an operad $\mathcal O$ is a collection, indexed by $r > 0$, of $\mathrm C_r$-equivariant chain maps $\mathcal W(r) \stackrel{\psi_r}{\longrightarrow} \mathcal O(r)$ for which there exists a factorization through an $E_\infty$-operad $\mathcal W(r) \to \mathcal R(r) \to \mathcal O(r)$ such that the first map is a quasi-isomorphism and the second is an $\S_r$-equivariant chain map. If the maps $\mathcal R(r) \to \mathcal O(r)$ define a morphism of operads $\mathcal R \to \mathcal O$, we say the Steenrod structure is a Steenrod-Adem structure.
+A Steenrod structure on an operad $\mathcal O$ is a collection, indexed by $r > 0$, of $\mathrm C_r$-equivariant chain maps $\mathcal W(r) \stackrel{\psi_r}{\longrightarrow} \mathcal O(r)$ for which there exists a factorization through an $E_\infty$-operad $\mathcal W(r) \to \mathcal R(r) \to \mathcal O(r)$ such that the first map is a quasi-isomorphism and the second is an $\S_r$-equivariant chain map. If the maps $\mathcal R(r) \to \mathcal O(r)$ define a morphism of operads $\mathcal R \to \mathcal O$, we say the Steenrod structure is a May-Steenrod structure.
 For any pair of integers $r$ and $i$, a Steenrod structure produces a preferred element $\psi_r(e_i)$ in $\mathcal O(r)_i$.
 
-Steenrod-Adem structures for the surjection and Barratt-Eccles operads are implemented in \comch\, following their introduction in \cite{medina2020chain}. Some examples of $\psi_r(e_i)$ are
+May-Steenrod structures for the surjection and Barratt-Eccles operads are implemented in \comch\, following their introduction in \cite{medina2020chain}. Some examples of $\psi_r(e_i)$ are
 
 \begin{Verbatim}[frame=single, samepage=true]
 >>> r, i = 3, 2
->>> y = Surjection.steenrod_adem_structure(r, i)
+>>> y = Surjection.may_steenrod_structure(r, i)
 >>> print(y)
 (1,2,3,1,2) + (1,3,1,2,3) + (1,2,3,2,3)
->>> x = BarrattEccles.steenrod_adem_structure(r, i)
+>>> x = BarrattEccles.may_steenrod_structure(r, i)
 >>> print(x)
 ((1,2,3),(2,3,1),(3,1,2)) + ((1,2,3),(3,1,2),(1,2,3))
 \end{Verbatim}
@@ -280,12 +283,12 @@ In this subsection we describe a Steenrod structure on the cochains of simplicia
 [0][1] \otimes [01][1] \otimes [01][01]
 \end{Verbatim}
 
-To define the Steenrod structure on the universal operad $End^{C_\bullet}$ it suffices to construct a collection of natural $\S_r$-equivariant chains maps $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ since we already have a Steenrod-Adem structure on $\mathcal X$. To describe the $\S_r$-equivariant chain map $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ we follow \cite{medina2020prop1, medina2018prop2}. Represent a basis surjection element in $\mathcal X(r)_n$ as the labeled directed graph
+To define the Steenrod structure on the universal operad $End^{C_\bullet}$ it suffices to construct a collection of natural $\S_r$-equivariant chains maps $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ since we already have a May-Steenrod structure on $\mathcal X$. To describe the $\S_r$-equivariant chain map $\X(r) \to Hom(C_\bullet, C_\bullet^{\otimes r})$ we follow \cite{medina2020prop1, medina2018prop2}. Represent a basis surjection element in $\mathcal X(r)_n$ as the labeled directed graph
 \begin{center}
-	\begin{tikzpicture}[scale=.95]
+	\begin{tikzpicture}[scale=1]
 	\draw (0,0)--(0,-.6) node[below, scale=.75]{$1$};
 	\draw (0,0)--(.5,.5);
-	\draw (-.3, .3)-- (-.2,.5) node[above, scale=.75]{\quad $1\ 2\, ...\, k_1$};
+	\draw (-.3, .3)-- (-.2,.5) node[scale=.75] at (-.2,.7) {\qquad $1\, \ \ 2\ \ ...\ \ k_1$};
 	\draw (-.5,.5)--(0,0);
 	\node[scale=.75] at (.11,.4){$...$};
 	
@@ -294,7 +297,7 @@ To define the Steenrod structure on the universal operad $End^{C_\bullet}$ it su
 	
 	\draw (2,0)--(2,-.68) node[scale=.75, below]{$r$};
 	\draw (2,0)--(2.5,.5);
-	\draw (1.7, .3)-- (1.8,.5) node[scale=.75, above]{\quad $1\ 2\, ...\, k_r$};
+	\draw (1.7, .3)--(1.8,.5) node[scale=.75] at (1.78,.7) {\qquad $1\, \ \ 2\ \ ...\ \ k_r$};
 	\draw (1.5,.5)--(2,0);
 	\node[scale=.75] at (2.11,.4){$...$};
 	
