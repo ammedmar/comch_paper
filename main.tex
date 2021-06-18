@@ -31,11 +31,9 @@ pdfpagelabels]{hyperref}
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\X}{\mathcal X}
 
-\newcommand{\rev}[1]{\textcolor{red}{#1}} % red/black
-
 \begin{document}
 	
-\title[A C.A.S. for the study of commutativity up-to-coherent homotopies]{A computer algebra system for the study of commutativity up-to-coherent homotopies}
+\title[A C.A.S. for the study of commutativity up to coherent homotopies]{A computer algebra system for the study of commutativity up to coherent homotopies}
 \author{Anibal M. Medina-Mardones}
 \address{Max Plank Institute for Mathematics, Bonn, Germany}
 \email{ammedmar@mpim-bonn.mpg.de}
@@ -46,7 +44,7 @@ pdfpagelabels]{hyperref}
 \subjclass[2020]{Primary 55-04, 18M60; Secondary 55S05,  	18M70, 55N31.}
 
 \begin{abstract}
-	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense. The primary examples of such algebras treated by \comch\, are the cochain complexes of spaces, for which it provides effective constructions of Steenrod cohomology operations at all prime\rev{s}.
+	The Python package \comch\, is a lightweight specialized computer algebra system that provides models for well known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense. The primary examples of such algebras treated by \comch\, are the cochain complexes of spaces, for which it provides effective constructions of Steenrod cohomology operations at all primes.
 \end{abstract} 
 
 \vspace*{-.8cm}
@@ -60,7 +58,7 @@ Hamilton's discovery encouraged the consideration of other algebraic structures 
 Around a century later, after the development of topology and homotopy, commutativity was revisited and additional levels enriching the basic dichotomy were identified.
 These correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of much current research on theoretical and applied topology.
 
-After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up-to-coherent-homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
+After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stashef \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up to coherent homotopies whose modern framework is provided by operads and PROPs, and where $E_n$-operads play a central role parameterizing the different levels of homotopical commutativity. In \comch, we focus on the category of chain complexes, and consider two models of the $E_\infty$-operad equipped with filtrations by $E_n$-operads. These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
 The homology of algebras over $E_n$-operads are equipped not only with an induced commutative product but also with homology operations when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$.
 The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{Kapustin2017}, category theory \cite{medina2020globular} and others areas. To provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020chain}, making available for the first time chain level representations of these invariants for spaces presented simplicially or cubically. When the prime is $2$, describing Steenrod operations at the chain level is classical and there are implementations for the simplicial \cite{GonReal1999} and cubical \cite{Pilarczyk2016} cases in \texttt{Sage} \cite{sage} and \texttt{ChainCon} \cite{chaincon} respectively. For odd primes, we do not know of any previous implementation either in the simplicial or cubical contexts. In the former case, a different effective approach was developed by Gonzales-Diaz and Real \cite{GonReal2003, GonReal2005} based on the Eilenberg–Zilber contraction.
@@ -71,7 +69,7 @@ We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Mich
 \tableofcontents
 
 \section{Overview of \comch} \label{s: overview}
-In this section we describe the overall structure and main functionalities of \comch, referring to its documentation for a description of all of its classes and their methods.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
+In this section we describe the overall structure and main functionalities of \comch, referring to its documentation for a thorough exposition.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
 
 \subsection{Free modules and symmetric groups}
 
@@ -96,7 +94,7 @@ An $\mathcal O$-coalgebra structure on $C$ is a structure preserving morphism fr
 
 \subsection{Symmetric ring operad}
 
-Let us consider $R[\S] = \left\{R[\S_r]\right\}_{r \geq 1}$ with $R[\S_r]$ the group ring of $\S_r$ thought of as a dg $R$-module concentrated in degree~$0$. It has the structure of an operad with left action induced from left multiplication, and compositions induced from the maps
+Let us consider $R[\S] = \left\{R[\S_r]\right\}_{r \geq 1}$ with $R[\S_r]$ the group ring of $\S_r$ thought of as a chain complex of $R$-module concentrated in degree~$0$. It has the structure of an operad with left action induced from left multiplication, and compositions induced from the maps
 \begin{equation} \label{eq: compostion of permutations}
 \circ_i \colon \S_r \times \S_s \to \S_{r+s-1}
 \end{equation}
