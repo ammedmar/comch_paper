@@ -1,30 +1,15 @@
 \documentclass{amsart}
-\usepackage{tikz-cd}
 \usepackage{fancyvrb}
-\usepackage[bookmarks=true, linktocpage=true,
-bookmarksnumbered=true, breaklinks=true,
-pdfstartview=FitH, hyperfigures=false,
-plainpages=false, naturalnames=true,
-colorlinks=true, pagebackref=true,
-pdfpagelabels]{hyperref}
-\hypersetup{
-	colorlinks,
-	citecolor=blue,
-	filecolor=blue,
-	linkcolor=blue,
-	urlcolor=blue
-}
+\include{aux/style}
 
-\setlength{\textwidth}{\paperwidth}
-\addtolength{\textwidth}{-2.3in}
-\setlength{\textheight}{\paperheight}
-\addtolength{\textheight}{-2.2in}
-\calclayout
-
-\makeatletter
-\@namedef{subjclassname@2020}{%
-	\textup{2020} Mathematics Subject Classification}
-\makeatother
+\title[A C.A.S. for the study of commutativity up to coherent homotopies]{A computer algebra system for the study of commutativity up to coherent homotopies}
+\author{Anibal M. Medina-Mardones}
+\address{Department of Mathematics, University of Notre Dame, IN, USA}
+\address{Max Plank Institute for Mathematics, Bonn, Germany}
+\email{ammedmar@mpim-bonn.mpg.de}
+\thanks{The author acknowledges financial support from Innosuisse grant \mbox{32875.1 IP-ICT - 1} and the hospitality of the Laboratory for Topology and Neuroscience at EPFL}
+\keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product, simplicial set, cubical set.}
+\subjclass[2020]{Primary 55-04, 18M60; Secondary 55S05, 18M70, 55N31.}
 
 \renewcommand{\S}{\mathrm{S}}
 \newcommand{\C}{\mathrm{C}}
@@ -38,21 +23,10 @@ pdfpagelabels]{hyperref}
 
 \begin{document}
 
-\title[A C.A.S. for the study of commutativity up to coherent homotopies]{A computer algebra system for the study of commutativity up to coherent homotopies}
-\author{Anibal M. Medina-Mardones}
-\address{Max Plank Institute for Mathematics, Bonn, Germany}
-\email{ammedmar@mpim-bonn.mpg.de}
-\address{Department of Mathematics, University of Notre Dame, Notre Dame, IN, USA}
-\thanks{The author acknowledges financial support from Innosuisse grant \mbox{32875.1 IP-ICT - 1} and the hospitality of the Laboratory for Topology and Neuroscience at EPFL while part of this work developed.}
-\keywords{Computer algebra system, Python, homotopical algebra, operads, cohomology operations, cup product, simplicial set, cubical set.}
-\subjclass[2020]{Primary 55-04, 18M60; Secondary 55S05, 18M70, 55N31.}
-
 \begin{abstract}
 	The \texttt{Python} package \comch\, is a lightweight specialized computer algebra system that provides models for well-known objects, the surjection and Barratt-Eccles operads, parameterizing the product structure of algebras that are commutative in a derived sense.
 	The primary examples of such algebras treated by \comch\, are the cochain complexes of spaces, for which it provides effective constructions of Steenrod cohomology operations at all primes.
 \end{abstract}
-
-\vspace*{-.8cm}
 
 \maketitle
 
@@ -63,13 +37,13 @@ Hamilton's discovery encouraged the consideration of other algebraic structures 
 Around a century later, after the development of topology and homotopy, commutativity was revisited and additional levels enriching the basic dichotomy were identified.
 These correspond to coherent systems correcting homotopically the lack of strict commutativity, and constitute the focus of much current research in theoretical and applied topology.
 
-After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stasheff \cite{Stasheff63}, Boardman-Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up to coherent homotopies whose modern framework is provided by operads and PROPs, and where $E_k$ operads play a central role parameterizing the different levels of homotopical commutativity.
+After the pioneering work of Steenrod \cite{Steenrod47, Steenrod62}, Adem \cite{Adem52}, Serre \cite{Serre53}, Cartan \cite{Cartan55}, Araki-Kudo \cite{ArakiKudo56}, Dyer-Lashof \cite{DyerLashof62}, Stasheff \cite{Stasheff63}, Boardman\-/Vogt \cite{BoardmanVogt73}, May \cite{May70algebraic, May72geometry}, and many others, today there is a rich theory of commutativity up to coherent homotopies whose modern framework is provided by operads and PROPs, and where $E_k$ operads play a central role parameterizing the different levels of homotopical commutativity.
 In \comch, we focus on the category of chain complexes, and consider two models of the $E_\infty$ operad equipped with filtrations by $E_k$ operads.
 These are respectively due to McClure-Smith \cite{McClureSmith03} and Berger-Fresse \cite{BergerFresse04} and are known as the surjection and Barratt-Eccles operads.
 
 The homology of algebras over $E_k$ operads are equipped not only with an induced commutative product but also with homology operations when the coefficient ring is the field $\mathbb F_p = \mathbb Z/ p\mathbb Z$.
 The study of these operations at the chain level has become an important issue in topological data analysis \cite{medina2018persistence}, condensed matter physics \cite{Kapustin2017}, category theory \cite{medina2020globular} and others areas.
-To provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2020maysteenrod}, making available for the first time cochain level representations of these invariants for spaces presented simplicially or cubically.
+To provide researchers with effective tools for their study, \comch\, implements the constructions of \cite{medina2021maysteenrod}, making available for the first time cochain level representations of these invariants for spaces presented simplicially or cubically.
 When the prime is $2$, describing Steenrod operations at the cochain level is classical and there are implementations for the simplicial \cite{GonReal1999} and cubical \cite{Pilarczyk2016} cases in \texttt{Sage} \cite{sage} and \texttt{ChainCon} \cite{chaincon} respectively.
 For odd primes, we do not know of any previous implementation either in the simplicial or cubical contexts.
 In the former case, a different effective approach was developed by Gonz\'ales-D\'iaz and Real \cite{GonReal2003, GonReal2005} based on the Eilenberg-Zilber contraction.
@@ -78,7 +52,7 @@ In the former case, a different effective approach was developed by Gonz\'ales-D
 We gratefully acknowledge contributions from Djian Post, Wojciech Reise and Michelle Smith.
 We thank Greg Brumfiel, Fr\'{e}d\'{e}ric Chapoton, Kathryn Hess, Ralph Kaufmann, Umberto Lupo, John Morgan, Paolo Salvatore, Dennis Sullivan, Guillaume Tauzin, and Lewis Tunstall for valuable conversations.
 
-\tableofcontents
+%\tableofcontents
 
 \section{Overview of \comch} \label{s: overview}
 In this section we describe the overall structure and main functionalities of \comch, referring to its documentation for a thorough exposition.\footnote{Currently hosted at \url{https://comch.readthedocs.io/en/latest/}}
@@ -278,7 +252,7 @@ A collection parameterized by $r > 0$ of $R[\C_r]$ linear chain maps is called a
 A May-Steenrod structure on an operad $\mathcal O$ is a cyclic morphism $\mathcal W \to \mathcal O$ for which there exists a factorization through an $E_\infty$ operad $\mathcal W \to \mathcal R \to \mathcal O$ such that the first map is a quasi-isomorphism and the second is a morphism of operads.
 For any pair of integers $r$ and $i$, a May-Steenrod structure produces a preferred element $\psi_r(e_i)$ in $\mathcal O(r)_i$.
 
-May-Steenrod structures for the surjection and Barratt-Eccles operads are implemented in \comch\, following their introduction in \cite{medina2020maysteenrod}.
+May-Steenrod structures for the surjection and Barratt-Eccles operads are implemented in \comch\, following their introduction in \cite{medina2021maysteenrod}.
 Some examples of $\psi_r(e_i)$ are given next.
 
 \begin{Verbatim}[frame=lines, samepage=true]
@@ -453,7 +427,7 @@ For example, Steenrod operations can be thought of as arising from the (graded) 
 For Steenrod operations, the main relations that bound them are known as the Cartan and Adem relations.
 To tap into the secondary structure associated with these relations one needs to provide effective proofs for them, that is to say, construct explicit cochains enforcing them when passing to cohomology.
 This is an open problem for $p > 2$.
-The case $p = 2$ was treated by Brumfiel, Morgan and the author \cite{medina2020cartan, medina2020adem} and the resulting relation cochains will soon be implemented in \comch.
+The case $p = 2$ was treated by Brumfiel, Morgan and the author \cite{medina2020cartan, medina2021adem} and the resulting relation cochains will soon be implemented in \comch.
 
 Operations on the homology of algebras that are only $E_k$ for a finite $k$ are well understood homologically \cite{Cohen76} but not at the chain level for $k > 2$.
 The case $k = 2$ has been studied by Tourtchine \cite{Tourtchine06} and will be implemented in \comch.
@@ -461,7 +435,6 @@ The case $k = 2$ has been studied by Tourtchine \cite{Tourtchine06} and will be 
 Cubical chains appear naturally from simplicial sets through the cobar construction \cite{adams1956cobar, Baues1980, medina2021cobar}.
 To model the double cobar construction one needs to study permutohedral chains \cite{Kadeishvili2002}, and in forthcoming work we describe an $E_\infty$ structure on permutohedral chains suitable for implementation in \comch.
 
-\bibliographystyle{ieeetr} % ieeetr
-\bibliography{bibliography}
-
+\sloppy
+\printbibliography
 \end{document}
